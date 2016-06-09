@@ -16,9 +16,9 @@
 package org.jboss.dashboard.database.hibernate;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
 import org.jboss.dashboard.Application;
 import org.jboss.dashboard.annotation.Priority;
 import org.jboss.dashboard.annotation.Startable;
@@ -131,7 +131,7 @@ public class HibernateInitializer implements Startable {
         loadHibernateDescriptors(hbmConfig);
 
         // Initialize the Hibernate session factory.
-        ServiceRegistryBuilder serviceRegistryBuilder = new ServiceRegistryBuilder().applySettings(hbmConfig.getProperties());
+        StandardServiceRegistryBuilder serviceRegistryBuilder = new StandardServiceRegistryBuilder().applySettings(hbmConfig.getProperties());
         ServiceRegistry serviceRegistry = (ServiceRegistry) ReflectionUtils.invokeMethod(serviceRegistryBuilder, "buildServiceRegistry", null);
         if (serviceRegistry == null) serviceRegistry = (ServiceRegistry) ReflectionUtils.invokeMethod(serviceRegistryBuilder, "build", null);
         SessionFactory factory = hbmConfig.buildSessionFactory(serviceRegistry);
